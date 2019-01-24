@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css
+"
+	integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="
+	crossorigin="anonymous"></link>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css
+"
+	integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4="
+	crossorigin="anonymous"></link>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js
+"
+	integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="
+	crossorigin="anonymous"></script>
+<title>星之海志愿者公会</title>
+
+</head>
+<body>
+	<div id="addact">
+		<form id="massMailForm" class="form" method="post"
+			action="online/mass" enctype="multipart/form-data">
+			<table class="table">
+				<tr>
+					<td>请输入邮件标题：</td>
+					<td><input name="mailTitle" type="text"></td>
+				</tr>
+				<tr>
+					<td>输入具体内容:</td>
+					<td>
+						<div id="content"></div> <input id="mailContent"
+						name="mailContent" type="hidden" style="height: 100px;"><br>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="添加邮件"
+						class="btn btn-success btn-lg text-right"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<script type="text/javascript" src="/lib/wangEditor.min.js"></script>
+	<script type="text/javascript">
+		var E = window.wangEditor;
+		var editor = new E('#content');
+		let imgSrc = new Array();
+		editor.customConfig.uploadImgServer = '/uploads';
+		editor.customConfig.uploadFileName = 'file';
+		editor.customConfig.debug = true;
+		editor.customConfig.menus = [ 'head', // 标题
+		'bold', // 粗体
+		'italic', // 斜体
+		'underline', // 下划线
+		'strikeThrough', // 删除线
+		'foreColor', // 文字颜色
+		'backColor', // 背景颜色
+		'link', // 插入链接
+		'list', // 列表
+		'justify', // 对齐方式
+		'image', // 插入图片
+		'table', // 表格
+		'undo', // 撤销
+		'redo' // 重复
+		];
+		editor.customConfig.uploadImgHooks = {
+			success : function(insertLinkImg, editor, result) {
+				imgSrc.push(result.data);
+			},
+			fail : function(xhr, editor, result) {
+				console.log(result);
+			},
+			error : function(xhr, editor) {
+				console.log("出错了");
+			},
+			customInsert : function(insertLinkImg, result, editor) {
+				insertLinkImg("http://" + window.location.host + result.data);
+			}
+		}
+		editor.create();
+	</script>
+	<script type="text/javascript">
+		$("#massMailForm").submit(function() {
+			$("#mailContent").val(editor.txt.html());
+		});
+	</script>
+</body>
+</html>
