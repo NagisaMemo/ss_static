@@ -68,6 +68,22 @@ $(function(){
             default:
         }
         $(this).css("color",colstr);
-    })
+    });
+    //金额输入
+
+    function messagealert(s){
+        $("#messagebox").html(`
+	    <div class="alertbox">`+s+ `</div>`);
+    }
+
+    $(".checkbutton").on("click",function(){
+        if(/^\d+\.?\d{0,2}$/.test($("#MoneyInput").val())){
+            $("#fundingMoney").val(Number($("#MoneyInput").val()));
+            $("[name='activityId']").val(parseInt($("[name='activityId']").val()));
+            $("#form1").submit();
+        }else{
+            messagealert("请输入有效格式的数字");
+        }
+    });
 
 });
